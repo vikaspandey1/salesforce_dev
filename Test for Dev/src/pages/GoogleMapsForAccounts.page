@@ -1,0 +1,70 @@
+<apex:page controller="test_ctrl_GoogleMaps_Accounts">
+    
+    <apex:form >
+    
+        <apex:pageBlock title="Google Maps">
+        
+            <apex:pageBlockSection columns="1">
+            
+                <apex:pageBlockSectionItem >
+                
+                    <apex:outputText value="Account #1" />
+                    <apex:selectList value="{!account1Id}" size="1">
+                        <apex:selectOptions value="{!accountOptions}" />
+                    </apex:selectList>
+                
+                </apex:pageBlockSectionItem>
+            
+                <apex:pageBlockSectionItem >
+                
+                    <apex:outputText value="Account #2" />
+                    <apex:selectList value="{!account2Id}" size="1">
+                        <apex:selectOptions value="{!accountOptions}" />
+                    </apex:selectList>
+                
+                </apex:pageBlockSectionItem>
+            
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons location="bottom">
+                
+                <apex:commandButton id="btnCalculateDistance"
+                    value="Calculate Distance" action="{!btnCalculateDistance_Click}"
+                    rerender="pbResults" />
+                
+            </apex:pageBlockButtons>
+        
+        </apex:pageBlock>
+        
+        <apex:pageBlock id="pbResults" title="Results">
+        
+            <apex:pageBlockSection columns="1">
+                
+                <apex:pageBlockSectionItem >
+                
+                    <apex:outputText value="Distance (miles)" />
+                    <apex:outputText value="{!distance}" />
+                
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem >
+                
+                    <apex:outputText value="Duration" />
+                    <apex:outputText value="{!duration}" />
+                
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem >
+                
+                    <apex:outputText value="Travel Time (minutes)" />
+                    <apex:outputText value="{!travelTime}" />
+                
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+        
+        </apex:pageBlock>
+    
+    </apex:form>
+    
+</apex:page>

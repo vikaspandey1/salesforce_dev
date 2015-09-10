@@ -1,0 +1,84 @@
+<apex:page controller="CCW_ContactPaginationController">
+
+    <script type="text/javascript">
+ 
+       function doCheckboxChange(cb,itemId){
+ 
+            if(cb.checked==true){
+                aSelectItem(itemId);
+            }
+            else{
+                aDeselectItem(itemId);
+            } 
+            
+            <!--
+            function selectAllCheckboxes(obj,receivedInputID){
+            var inputCheckBox = document.getElementsByTagName("input");                 
+            for(var i=0; i<inputCheckBox.length; i++){         
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){                                    
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+ 
+        } -->
+ 
+    </script>
+ 
+    <apex:form >
+ 
+        <!-- handle selected item -->
+        
+          
+        <apex:actionFunction name="aSelectItem" action="{!doSelectItem}" rerender="mpb">
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+ 
+        <!-- handle deselected item -->
+        <apex:actionFunction name="aDeselectItem" action="{!doDeselectItem}" rerender="mpb">
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+ 
+         <apex:pageBlock title="UserStatus" id="ustatus">
+ <apex:selectList value="{!selectedstatus}" multiselect="false" size="1" label="Users" title="Users">
+                <apex:selectOption itemValue="true" itemLabel="Active"/>
+                <apex:selectOption itemValue="false" itemLabel="Inactive"/>
+          </apex:selectList>
+          <apex:commandButton onclick="getUserAccounts()" id="btnSubmit" value="Go" />
+          </apex:pageBlock>
+          
+        <apex:pageBlock title="Users List" id="mpb">
+ 
+           
+            <apex:pageBlockTable title="userAccounts" value="{!UserAccounts}" var="c">
+                <apex:column >
+                    <apex:facet name="header" > 
+                   <!--// <apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputId')" /> -->
+                    </apex:facet>
+                   <apex:inputCheckbox value="{!c.IsSelected}" onchange="doCheckboxChange(this,'{!c.tContact.Id}')"/>
+                </apex:column>
+                <apex:column value="{!c.tContact.Name}"/>
+                <apex:column value="{!c.tContact.Start_Time__c}"/>
+                <apex:column value="{!c.tContact.End_Time__c}"/>
+                 <apex:column value="{!c.tContact.Status__c}"/>
+            </apex:pageBlockTable>
+ 
+            <!-- count of selected items -->
+            <apex:outputLabel value="[{!selectedCount} records selected]" />
+ 
+            <br/>
+ 
+            <!-- next, previous and page info -->
+            <apex:commandLink action="{!doPrevious}" rendered="{!hasPrevious}" value="Previous" />
+            <apex:outputLabel rendered="{!NOT(hasPrevious)}" value="Previous" />
+ 
+            <apex:outputLabel value=" (page {!pageNumber} of {!totalPages}) " />
+ 
+            <apex:commandLink action="{!doNext}" rendered="{!hasNext}" value="Next" />
+            <apex:outputLabel rendered="{!NOT(hasNext)}" value="Next" />
+ 
+        </apex:pageBlock>
+ 
+    </apex:form>
+
+
+</apex:page>

@@ -1,0 +1,311 @@
+<apex:page standardController="Account" extensions="landingPageController">
+     <apex:includeScript value="/support/console/20.0/integration.js"/>
+    <style>
+        td,th {
+        vertical-align:top;
+    }
+    DIV#content
+    {
+    width:650px;
+    height:250px;
+    overflow:scroll;
+    }
+    </style>
+
+    <script type="text/javascript">
+
+        sforce.console.setTabTitle('{!account.name}');
+    </script>
+<apex:form >
+  <table class="toolsContent" id="toolsContent">
+    <tbody>
+        <tr>
+            <td>
+                <div class="toolsContentLeft">
+                    <div class="bSubBlock brandSecondaryBrd secondaryPalette bPageBlock" >
+                        <h3 class="lbHeader"><apex:outputText value="Details of Account: {!account.Name}" /></h3>
+                        <div class="lbBody">
+                            <table width="30%">
+                                <tr>
+                                    <td align="left"> <apex:outputText value="Account Name: {!account.name}" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="left">  <apex:outputText value="Industry: {!account.Industry}" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="left"> <apex:outputText value="Annual Revenue: {!account.AnnualRevenue}" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="left">  <apex:outputText value="Employees: {!account.NumberOfEmployees}" /></td>
+                                </tr>
+                                                                                        
+                               <!--  
+                               <tr>
+                                    <td>Medicare Id: </td>
+                                    <td> <apex:outputText value="{!account.Medicare_Id__c}" /></td>
+                                    <td/><td/>
+                                </tr>
+                                <tr>
+                                    <td>SSN: </td>
+                                    <td> <apex:outputField value="{!account.SSN__c}" /></td>
+                                    <td/><td/>
+                                </tr>
+                                -->
+                                <!--
+                                <tr>
+                                    <td>Gender: </td>
+                                    <td><apex:outputText value="{!account.Gender__c}" /></td>
+                                    <td>Age: </td>
+                                    <td><apex:outputText value="{!account.Age__c}" /></td>
+                                </tr>
+                                
+                                 <tr>
+                                    <td>DOB: </td>
+                                    <td> 
+                                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}"> 
+                                            <apex:param value="{!account.DOB__c}"/>
+                                        </apex:outputText>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Billing Street: </td>
+                                    <td> <apex:outputText value="{!account.BillingStreet}" /></td>
+                                     <td>Billing City: </td>
+                                    <td> <apex:outputText value="{!account.BillingCity}" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Billing State: </td>
+                                    <td> <apex:outputText value="{!account.BillingState}" /></td>
+                                    <td>Billing Country: </td>
+                                    <td> <apex:outputText value="{!account.BillingCountry}" /></td>
+                                </tr>
+                                -->
+                            </table>
+                        </div>
+                        
+                        
+                        <div class="lbBody">
+                            <table>
+                                <tr>
+                                    <tr>
+                                        <td> Billing Street :</td>
+                                        <td><apex:outputText value="{!account.BillingStreet}" /></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>Billing City :</td>
+                                        <td><apex:outputText value="{!account.BillingCity}" /></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>Billing State :</td>
+                                        <td>
+                                            <apex:outputText value="{!account.BillingState}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Billing Country: </td>
+                                        <td> <apex:outputText value="{!account.BillingCountry}" /></td>
+                                    </tr>
+                                </tr>
+                             </table>
+                        </div>
+                        
+                        <div class="lbBody">
+                            <table>
+                                <tr>
+                                    <td>Phone: </td>
+                                    <td><apex:outputText value="{!account.Phone}" /></td>
+                                </tr>
+                                 <tr>
+                                    <td>Fax: </td>
+                                    <td><apex:outputText value="{!account.Fax}" /></td>
+                                </tr>
+                                <tr>
+                                 <td>Email: </td>
+                                    <td> <apex:outputText value="{!account.Email__c}" /></td>
+                                 </tr>
+                                <tr>
+                                 <td>Website: </td>
+                                    <td> <apex:outputText value="{!account.Website}" /></td>
+                                 </tr>                            
+                             </table>
+                        </div>
+                     
+                      <!--  <div class="lbBody">
+                            <div class="mainLink">
+                                <a href="/001/o?">Go to Account</a>&nbsp;
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="toolsContentRight">
+                    <div > <!-- class="bSubBlock brandSecondaryBrd secondaryPalette" -->
+                        <div class="lbBody">
+                             <apex:pageBlock title="Inquiries" >
+                                     <apex:pageBlockButtons location="top" style="align:right">   
+                                         <a href="javascript:srcUp('{!URLFOR($Action.Case.NewCase,null,[cas4=account.Name,retURL="%2F500%2Fo"],false)}');" style="float:right;">
+                                        New Inquiry</a>
+                                       <!-- <apex:outputLink value="/500/e?retURL=%2F500%2Fo&cas4={!account.Name}" target="_blank" style="float:right;"></apex:outputLink>         -->
+                                    </apex:pageBlockButtons>                                                 
+                                    <apex:pageBlockTable value="{!cases}" var="case" >
+                                    <apex:column headerValue="Inquiry No">
+                                    <apex:outputLink value="{!URLFOR($Action.Case.View,case.id)}">
+                                        {!case.CaseNumber}
+                                        
+                                    </apex:outputLink>
+                                    <apex:outputLabel rendered="{!case.isEscalated || case.status == 'Escalated'}">
+                                        <img src="/s.gif" alt="Escalated" class="escalatedSmall" title="This case has been escalated"/>
+                                    </apex:outputLabel>
+                                    </apex:column>
+                                    <apex:column value="{!case.Subject}"/>
+                                    <apex:column value="{!case.Reason}"/>
+                                    <apex:column value="{!case.CreatedDate}"/>
+                                    <apex:column value="{!case.Status}"/>
+                                    <apex:column value="{!case.Priority}"/>
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            </tr>
+         <tr >
+        <!--<td><apex:relatedList subject="{!Policy__c}" 
+                           list="benefit__r.claim__c.Claim_Amount__c" /></td>-->
+         <td>
+               <div class="toolsContentLeft">
+                    <div ><!--class="bSubBlock brandSecondaryBrd secondaryPalette" -->
+                        <div class="lbBody">
+                            <div id="content">
+                            <apex:page id="thePage" >
+                            <apex:include pageName="GoogleMap"/>
+                            </apex:page>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </td>
+            
+            <td>
+               <div class="toolsContentRight">
+                    <div class="bSubBlock brandSecondaryBrd secondaryPalette bPageBlock">
+                        <div class="pbHeader"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="pbTitle"><h2 class="mainTitle">Alerts</h2></td><td>&nbsp;</td></tr></tbody></table></div>
+                        <apex:repeat value="{!alert}" var="alt" >
+                        <h3 class="lbHeader" style="font-weight: bold;font-size:small"><apex:outputText value="{!alt.Alert__r.Type__c}" /></h3>
+                        <div class="lbBody">
+                            <table width="100%">
+                                <tr>
+                                    <td align="right">Name: </td>
+                                    <td > <apex:outputText value="{!alt.Alert__r.Offer__c}" /></td>
+                                    <td></td>
+                                </tr>
+                                 <tr>
+                                    <td>Description: </td>
+                                    <td> <apex:outputText value="{!alt.Alert__r.Offer_Description__c}" /></td>
+                                    <td/><td/>
+                                </tr>
+                            </table>
+                        </div>
+                        </apex:repeat>
+                    </div>
+                </div>
+            </td>
+            
+            </tr>   
+        <tr >
+        <!--<td><apex:relatedList subject="{!Policy__c}" 
+                           list="benefit__r.claim__c.Claim_Amount__c" /></td>-->
+         <td>
+               <div class="toolsContentLeft">
+                    <div ><!--class="bSubBlock brandSecondaryBrd secondaryPalette" -->
+                        <div class="lbBody">
+                            <apex:pageBlock title="Portfolio" >
+                             <apex:pageBlockTable value="{!benefit}" var="b">
+                                    <apex:column headerValue="Product Code">
+                                    <apex:outputLink value="{!URLFOR($Action.Policy__c.View,b.Id)}">{!b.Product__r.ProductCode}</apex:outputLink>
+                                    </apex:column>
+                                    <apex:column value="{!b.Product__r.Name}"/>
+                                    <apex:column value="{!b.Product__r.Description}"/>
+                   
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </div>
+                       
+                    </div>
+                </div>
+            </td>
+            
+            <td>
+               <div class="toolsContentRight">
+                        <apex:pageBlock title="Transactions" >
+                             <apex:pageBlockTable value="{!claim}" var="clm">
+                                    <apex:column headerValue="Claim Id">
+                                    <apex:outputLink value="{!URLFOR($Action.Claim__c.View,clm.Id)}">{!clm.Name}</apex:outputLink>
+                                    </apex:column>
+                                    <apex:column value="{!clm.policy__r.Product__r.Name}"/>
+                                    <apex:column value="{!clm.Claim_Amount__c}"/>
+                                    <apex:column value="{!clm.Paid_Amount__c}"/>
+                                    <apex:column value="{!clm.Reciept_Date__c}"/>
+                                    <apex:column value="{!clm.Claim_Status__c}"/>
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                </div>
+            </td>
+            
+            </tr>
+         <!--  <tr>
+           
+            <td colspan="2">
+                <div class="toolsContentRight">
+                    <div > <!-- class="bSubBlock brandSecondaryBrd secondaryPalette" 
+                        <div class="lbBody">
+                             <apex:pageBlock title="Claims" >
+                             <apex:pageBlockTable value="{!claim}" var="clm">
+                                    <apex:column headerValue="Claim Id">
+                                    <apex:outputLink value="{!URLFOR($Action.Claim__c.View,clm.Id)}">{!clm.Name}</apex:outputLink>
+                                    </apex:column>
+                                    <apex:column value="{!clm.policy__r.Product__r.Name}"/>
+                                    <apex:column value="{!clm.Claim_Amount__c}"/>
+                                    <apex:column value="{!clm.Paid_Amount__c}"/>
+                                    <apex:column value="{!clm.Reciept_Date__c}"/>
+                                    <apex:column value="{!clm.Claim_Status__c}"/>
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>-->
+       <tr><!--
+         <td colspan="2">
+                <div class="toolsContentRight">
+                    <div > <!-- class="bSubBlock brandSecondaryBrd secondaryPalette" 
+                        <div class="lbBody">
+                             <apex:pageBlock title="Benefits" >
+                             <apex:pageBlockTable value="{!bnft}" var="bs">
+                                    <!--<apex:column headerValue="Benefit Id">
+                                    <apex:outputLink value="{!URLFOR($Action.Bnft__c.View,bs.Id)}">{!bs.policy__r.Name}</apex:outputLink>
+                                    </apex:column>
+                                    <apex:column value="{!bs.Benefit__r.Name}"/>
+                                    <apex:column value="{!bs.benefit__r.Service_Category__c}"/>
+                                    <apex:column value="{!bs.benefit__r.Service_Type__c}"/>
+                                    <apex:column value="{!bs.benefit__r.Place_of_Service__c}"/>
+                                    <apex:column value="{!bs.benefit__r.In_Network__c}"/>
+                                    <apex:column value="{!bs.benefit__r.Out_Network__c}"/>
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </div>
+                    </div>
+                </div>
+            </td>-->
+            </tr>
+    </tbody>
+</table>
+</apex:form>
+</apex:page>

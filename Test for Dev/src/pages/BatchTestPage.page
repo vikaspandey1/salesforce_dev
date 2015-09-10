@@ -1,0 +1,6 @@
+<apex:page controller="LicenseOptimizer_Automated">
+  
+  <apex:form >
+  <apex:commandButton value="test" action="{!LicenseOptimizer}"/>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,11 @@
+<apex:page controller="repeatCon" cache="false" sidebar="true" showHeader="true">
+    <apex:pageBlock title="{!strtitle}" >
+        <apex:pageBlockSection columns="{!iColumns}">
+            <apex:repeat value="{!DashNames}" var="string" id="theRepeat"> 
+                <apex:pageBlockSectionItem >
+                    <c:GoogleChartComponent dashboardName1="{!string}" ParentName1="Account DashBoard"/>
+                </apex:pageBlockSectionItem>    
+            </apex:repeat>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

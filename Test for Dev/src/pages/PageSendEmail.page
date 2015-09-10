@@ -1,0 +1,19 @@
+<apex:page controller="sendEmail">
+    <Apex:form >
+        <apex:pageBlock id="thePageblock">
+            
+            <apex:pageBlockSection >
+            <apex:outputText value=" To :" /><apex:inputText value="{!StrSendTo}" size="60"/>
+            <apex:outputText value=" Cc :" /><apex:inputText value="{!StrCCTo}" size="60"/>
+            <apex:outputText value=" Bcc :" /><apex:inputText value="{!StrBCCTo}" size="60"/>
+            <apex:outputText value=" Subject :" /><apex:inputText value="{!Subject }" size="60"/>
+            <apex:outputText value=" Body :" /><apex:inputTextarea value="{!Body}" rows="20" cols="60"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!doSendEmail}" value="SentEmail" reRender="thePageblock"/>
+            </apex:pageBlockButtons>
+            <apex:outputText value="{!ErrorMSG }"></apex:outputText>
+        </apex:pageBlock>
+    </Apex:form>
+</apex:page>

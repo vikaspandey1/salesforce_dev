@@ -1,0 +1,55 @@
+<apex:page controller="UserData">
+<script type="text/javascript">
+        function checkAll(cb){
+           
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++){
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                    inputElem[i].checked = cb.checked;
+                   
+            }
+        } 
+        
+     </script>
+  <apex:form >
+  <apex:pagemessages />
+      <apex:pageBlock id="userstatus" title="Status">
+         <!-- <apex:selectList value="{!selectedStatus}" size="1" > 
+            <apex:selectOptions value="{!openShiftOptions}" > 
+            </apex:selectOptions>
+         </apex:selectList> -->
+          <apex:selectList value="{!selectedstatus}" multiselect="false" size="1" label="Users" title="Users">
+                <apex:selectOption itemValue="true" itemLabel="Active"/>
+                <apex:selectOption itemValue="false" itemLabel="Inactive"/>
+          </apex:selectList>
+         <apex:commandButton onclick="getUsers()" id="btnSubmit" value="Go" />
+      </apex:pageBlock>
+      <apex:pageblock title="Users" id="Userdetailsection">
+          <apex:pageblockSection >
+              <apex:dataTable value="{!users}" var="u"  border="1" id="MainUserTable"  title="Active Users">
+                    <apex:column >
+                        <apex:facet name="header"> <apex:inputCheckbox >
+                            <apex:actionSupport event="onclick" action="{!GetSelected}" onsubmit="checkAll(this)" rerender="SelectedPageBlock"/>
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!u.selected}" id="checkedone" >
+                        <apex:actionSupport event="onclick" action="{!GetSelected}" rerender="SelectedPageBlock"/></apex:inputCheckbox>
+                    </apex:column>
+                    
+                    <apex:column headervalue="User Name">
+                        <apex:commandLink id="userrowlink"   value="{!u.usr.Name__c}" action="{!getusername}" reRender="userdetailinfo"> 
+                          <apex:param name="username" value="{!u.usr.Name__c}" assignTo="{!clickedusername}"/>
+                          </apex:commandLink>
+                    </apex:column>      
+                    <apex:column headervalue="User Id" value="{!u.usr.Id}" />
+                    <apex:column headervalue="Active Status" value="{!u.usr.Status__c}"/>
+                </apex:dataTable>
+          </apex:pageblockSection>    
+      </apex:pageblock>
+      <apex:commandButton value="Deactive Selected Users"  action="{!deactivateuser}" rendered="{!deactivevisibility}"/> 
+         <apex:commandButton value="Activate Selected Users"   action="{!activateuser}" rendered="{!activevisibility}"/> 
+       <apex:pageBlock id="userdetailinfo">
+          <apex:detail relatedList="false" title="false"  subject="{!userid}"/>   
+          </apex:pageBlock>  
+  </apex:form>
+</apex:page>

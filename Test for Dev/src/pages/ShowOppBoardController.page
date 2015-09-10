@@ -1,0 +1,10 @@
+<apex:page controller="ShowOppBoardController" tabStyle="Campaign">
+    <apex:pageBlock >
+     <apex:pageBlockSection title="List of Opportunties"></apex:pageBlockSection>
+       <apex:pageblockTable value="{!oppList}" var="oppRec">
+          <apex:repeat value="{!fieldList}" var="fieldOfOpp" id="theRepeat">
+              <apex:column value="{!oppRec[fieldOfOpp]}" id="theValue"/><br/>
+          </apex:repeat>
+       </apex:pageblockTable>  
+    </apex:pageBlock>
+</apex:page>

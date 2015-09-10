@@ -1,0 +1,10 @@
+<apex:page controller="displayScreenController" id="thePage" tabStyle="Lead">
+  <apex:form >
+     <apex:pageBlock >
+        <apex:pageBlockSection title="Repeat Attribute"> </apex:pageBlockSection>     
+          <apex:repeat value="{!status}" var="string" id="theRepeat">
+             <apex:outputText value="{!string}" id="theValue"/><br/>
+          </apex:repeat>
+       </apex:pageBlock>
+     </apex:form>
+</apex:page>

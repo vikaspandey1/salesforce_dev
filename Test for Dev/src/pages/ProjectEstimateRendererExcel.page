@@ -1,0 +1,67 @@
+<apex:page controller="ProjectEstimateController" contenttype="text/csv#EstimationSheet" cache="true" language="en-US">
+    <apex:form >
+        <apex:pageBlock title="Project Etimation Summary [In Hours]">
+            <br></br>            <br></br>            <br></br>            
+            <table>
+                <tr><td width="450px">Project Name - &nbsp;&nbsp;{!ProjectName}</td></tr>
+                <tr><td width="450px">Client Name - &nbsp;&nbsp;{!ClientName}</td></tr>
+                <tr>
+                    <td width="450px">Confidentiality - &nbsp;&nbsp;{!Confidentiality}</td>
+                    <td width="450px">Methodology - &nbsp;&nbsp;{!Methodology}</td>
+                </tr>
+                <tr>
+                    <td width="450px">Start Date - &nbsp;&nbsp;{!PlannedStartDate}</td>
+                    <td width="450px">End Date - &nbsp;&nbsp;{!PlannedEndDate}</td>
+                </tr>
+            </table>
+            <br></br>            <br></br>            <br></br>
+            <apex:outputPanel rendered="{!Show}">
+                    <b>
+                    <table>
+                    <tr>
+                        <td width="250px"></td>
+                        <td width="150px">Business Modelling</td> 
+                        <td width="150px">System Design</td> 
+                        <td width="150px">Implementation</td> 
+                        <td width="150px">Testing</td> 
+                        <td width="150px">Deployment</td> 
+                        <td width="150px">Total</td>
+                    </tr>
+                </table>
+                </b>                    
+            </apex:outputPanel>            
+
+
+        <apex:repeat value="{!wrapperOuterClassLst}" var="r1" >
+            <b> {!r1.Capability}</b> <br/> 
+                <apex:repeat value="{!r1.WrapperInnerClassLst}" var="r2">
+                    <apex:dataTable value="{!r2}" var="r3">
+                        <apex:column style="width:250px">{!r3.Component}</apex:column>
+                        <apex:column headerValue="" style="width:150px">{!r3.BusinessModelling}</apex:column>
+                        <apex:column headerValue="" style="width:150px">{!r3.SystemDesign}</apex:column>
+                        <apex:column headerValue="" style="width:150px">{!r3.Implementation}</apex:column>
+                        <apex:column headerValue="" style="width:150px">{!r3.Testing}</apex:column>
+                        <apex:column headerValue="" style="width:150px">{!r3.Deployment}</apex:column>
+                        <apex:column headerValue="" style="width:150px"><b> {!r3.HorizentalTotal} </b></apex:column>
+                    </apex:dataTable>
+                </apex:repeat> 
+             <br/> 
+        </apex:repeat>
+            <br></br>        
+        <apex:outputPanel rendered="{!Show}">
+        <apex:repeat value="{!wrapperBottomTotalClassLst}" var="rb">
+            <apex:dataTable value="{!rb}" var="rb1">
+                 <apex:column style="width:250px"> <b>{!rb1.TotalCapability} </b></apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.TotalBusinessModelling}</b> </apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.TotalSystemDesign}</b> </apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.TotalImplementation} </b></apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.TotalTesting} </b></apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.TotalDeployment} </b></apex:column>
+                 <apex:column style="width:150px"> <b>{!rb1.GrandTotal}</b> </apex:column>
+             </apex:dataTable>
+        </apex:repeat> 
+        </apex:outputPanel>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

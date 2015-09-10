@@ -1,0 +1,251 @@
+<apex:page controller="PagingController"  sidebar="false" 
+ showHeader="false" label="License Manger" title="License Manger" 
+standardStylesheets="false" applyHtmlTag="false"> 
+
+<!-- loading box component-->
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+
+  <link href="{!URLFOR($Resource.bootStrap3, '/bootstrap-3.3.2-dist/css/bootstrap.min.css')}" rel="stylesheet" media="screen"/>  
+
+
+
+    </head>
+        <c:loading_box />
+<apex:form >
+
+ <script>  
+  function onControllerReturn() {
+     alert({!users.size});
+    
+  }
+  </script>
+
+  <style>
+.hidden{
+alert('hi');
+display: true;
+
+}
+</style>
+
+
+
+  <apex:pagemessages />
+    <apex:pageBlock title="SalesForce License Optimiser" id="pb"   >
+    <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                    <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                   
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search Citeria</h3>
+            </div>
+            <div class="panel-body">
+                <!-- panel body -->
+                
+                 <apex:pageBlockSection id="ustatus" columns="4" collapsible="false" >
+         <!--  <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp; -->
+                   
+             <apex:selectList value="{!selectedstatus}" multiselect="false" size="5" label="Status" title="Status"  onchange="show()">
+                <apex:selectOption itemValue="true" itemLabel="Active"/>
+                <apex:selectOption itemValue="false" itemLabel="Inactive"/>
+          </apex:selectList>
+          
+         
+          
+      <apex:selectList value="{!shiftType2}" multiselect="true" size="5"  label="Shift Types" title="Users"   >
+                <apex:selectOption itemValue="na" itemLabel="NA"/>               
+
+                <apex:selectOption itemValue="Regular" itemLabel="Regular"/>                
+                <apex:selectOption itemValue="Afternoon" itemLabel="Afternoon"/>
+                <apex:selectOption itemValue="Evening" itemLabel="Evening"/>
+
+                <apex:selectOption itemValue="Night" itemLabel="Night"/>
+
+          </apex:selectList>
+   
+ 
+ <apex:selectList value="{!size}" multiselect="false" size="5" onchange="show()" label="Records/Page" title="Records/Page">
+                        <apex:selectOptions value="{!items}"/>
+                     </apex:selectList>    
+            
+          </apex:pageBlockSection>
+            </div>
+          </div>
+        
+      <!--  
+    <apex:pageBlockSection title="Search Citeria" id="ustatus" columns="4" collapsible="false" >
+         <!--  <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp; -->
+           <!--         
+             <apex:selectList value="{!selectedstatus}" multiselect="false" size="5" label="Status" title="Status"  onchange="show()">
+                <apex:selectOption itemValue="true" itemLabel="Active"/>
+                <apex:selectOption itemValue="false" itemLabel="Inactive"/>
+          </apex:selectList>
+          
+         
+          
+      <apex:selectList value="{!shiftType2}" multiselect="true" size="5"  label="Shift Types" title="Users" onchange="show()"   >
+                <apex:selectOption itemValue="na" itemLabel="NA"/>               
+
+                <apex:selectOption itemValue="Regular" itemLabel="Regular"/>                
+                <apex:selectOption itemValue="Afternoon" itemLabel="Afternoon"/>
+                <apex:selectOption itemValue="Evening" itemLabel="Evening"/>
+
+                <apex:selectOption itemValue="Night" itemLabel="Night"/>
+
+          </apex:selectList>
+   
+ 
+ <apex:selectList value="{!size}" multiselect="false" size="5" onchange="show()" label="Records/Page" title="Records/Page">
+                        <apex:selectOptions value="{!items}"/>
+                     </apex:selectList>    
+            
+          </apex:pageBlockSection>
+        -->
+      <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                    <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+  
+       <div class="panel panel-default">
+        <!--    <div class="panel-heading">
+              <h3 class="panel-title">Manage Users</h3>
+            </div> -->
+            <div class=" table table-bordered">
+             <apex:pageBlockTable value="{!users}" var="c" style="font-size:15px"  align="center"   >     
+            <apex:column width="25px">
+            <apex:inputCheckbox value="{!c.checked}"/>
+          </apex:column>
+                 <!--styleClass="table table-hover" -->
+         
+        <apex:column headervalue=" Custom Users " width="75px"  >
+             <apex:commandLink id="userrowlink"   value="{!c.cat.Name__c}" action="{!getusername}" reRender="userdetailinfo" styleClass="btn" >   
+              <apex:param name="username" value="{!c.cat.Name__c}" assignTo="{!clickedusername}"/ >
+        </apex:commandLink>
+          </apex:column>   
+
+          <apex:column value="{!c.cat.ProfileName__c}" headerValue="Profile Name"  />          
+          <apex:column value="{!c.cat.Shift_Type__c}" headerValue="Shift Name" />
+          <apex:column value="{!c.cat.Start_Time__c}" headerValue="Start Time" />
+          <apex:column value="{!c.cat.End_Time__c}" headerValue="End Time" />
+          <!--<apex:column value="{!c.cat.User__c}" headerValue="system user"/> -->
+         
+          <apex:column value="{!c.cat.Status__c}" headerValue="Status" />
+          ProfileName__c
+            </apex:pageBlockTable>
+      
+            </div>
+          </div>
+
+
+
+        
+     <!--
+        <apex:pageBlockTable value="{!users}" var="c" style="font-size:15px"  align="center" >     
+            <apex:column width="25px">
+            <apex:inputCheckbox value="{!c.checked}"/>
+          </apex:column>
+
+         
+        <apex:column headervalue=" Custom Users " width="75px"  >
+             <apex:commandLink id="userrowlink"   value="{!c.cat.Name__c}" action="{!getusername}" reRender="userdetailinfo" >   
+              <apex:param name="username" value="{!c.cat.Name__c}" assignTo="{!clickedusername}"/ >
+        </apex:commandLink>
+          </apex:column>   
+
+          <apex:column value="{!c.cat.ProfileName__c}" headerValue="Profile Name"/>          
+          <apex:column value="{!c.cat.Shift_Type__c}" headerValue="Shift Name"/>
+          <apex:column value="{!c.cat.Start_Time__c}" headerValue="Start Time"/>
+          <apex:column value="{!c.cat.End_Time__c}" headerValue="End Time"/>
+          <!--<apex:column value="{!c.cat.User__c}" headerValue="system user"/> -->
+         
+<!--          <apex:column value="{!c.cat.Status__c}" headerValue="Status"/> 
+          ProfileName__c
+
+
+
+
+        </apex:pageBlockTable>
+      
+        -->
+      
+     <!-- </apex:pageBlockSection> -->
+       <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+   <center>
+      
+                    <apex:commandButton status="fetchStatus" reRender="pb" value="Refresh" action="{!refresh}" title="Refresh Page" styleClass="btn btn-primary"/> 
+       
+                   <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp; 
+
+       <apex:commandButton value="Activate Users"   action="{!activate}" rendered="{!activevisibility}"  styleClass="btn btn-success"/>
+     
+                    <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                
+      
+         <apex:commandButton value="Deactivate Users" action="{!deactivate}" rendered="{!deactivevisibility}"  styleClass="btn btn-danger"/> 
+       
+  
+</center>
+   <center>
+   <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                    <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                   
+                <apex:panelGrid columns="9">
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="|<" action="{!first}" disabled="{!!hasPrevious}" title="First Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="<" action="{!previous}" disabled="{!!hasPrevious}" title="Previous Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value=">" action="{!next}" disabled="{!!hasNext}" title="Next Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value=">|" action="{!last}" disabled="{!!hasNext}" title="Last Page"/>
+                  <br/>
+                   
+                 
+                  
+                  
+                
+              </apex:panelGrid>   
+              <apex:outputPanel style="color:#4AA02C;font-weight:bold">
+                      <apex:actionStatus id="fetchStatus" startText="Fetching..." stopText=""/>
+                  </apex:outputPanel> <br/>
+              <apex:outputLabel value=" (Page {!pageNumber} of {!totalPages}) " />
+              
+                  <apex:outputText >
+                    </apex:outputText>&nbsp;&nbsp;
+                    <br>
+           </br>
+      <apex:outputText > Showing {!(con.pageNumber * size)+1-size}-{!IF((con.pageNumber * size)>noOfRecords, noOfRecords,(con.pageNumber * size))} of Total {!noOfRecords} Records</apex:outputText> 
+     
+     </center>
+    
+              <apex:actionFunction name="show" status="loadStatus" action="{!refresh}" reRender="pb"  />
+
+
+     
+                             
+             
+     
+ </apex:pageBlock>
+    
+ <apex:pageBlock id="userdetailinfo"   >
+
+          <apex:detail relatedList="false" title="false"  subject="{!userid}" />   
+  
+
+          </apex:pageBlock>  
+
+  </apex:form> 
+    </html>
+</apex:page>

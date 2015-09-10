@@ -1,0 +1,337 @@
+<apex:page ShowHeader="true" standardController="Estimate__c" extensions="CaptureWorkstreamComponentsController">
+    <apex:pageMessages />
+      <script>
+      function confirmCancel() {
+          var isCancel = confirm("Do you wish to cancel it?");
+
+          if (isCancel) 
+              return true;
+          return false;
+      }  
+      </script> 
+      <apex:form rendered="{!!rend}">
+        <apex:pageBlock title="Workstream & Components">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Cancel" action="{!cancel}" onclick="return confirmCancel()" immediate="true" />
+                <apex:commandButton value="Fill Details" action="{!FillDetails}" />
+            </apex:pageBlockButtons>
+        
+            <apex:pageBlockSection columns="1" >
+                <apex:pageBlockSectionItem dataStyle="width:100%">
+                    <apex:outputLabel style="width:30%">Project</apex:outputLabel>
+                    <apex:inputField value="{!Estimate__c.Project__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="width:30%">Methodology</apex:outputLabel>
+                    <apex:inputField value="{!Estimate__c.Methodology__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="width:30%">Offering</apex:outputLabel>
+                    <apex:inputField value="{!Estimate__c.Offering__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="width:30%">Capability / Work Stream</apex:outputLabel>
+                    <apex:inputField value="{!Estimate__c.Capability_Work_Stream__c}"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="width:30%">Custom Object Name</apex:outputLabel>
+                     <apex:inputField value="{!Estimate__c.Custom_Object_Name__c}"/>
+                </apex:pageBlockSectionItem>    
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="width:30%">Components</apex:outputLabel>
+                    <apex:inputField value="{!Estimate__c.Components__c}"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>      
+
+    <apex:form rendered="{! rend}">
+        <apex:pageBlock title="{!Estimate__c.Capability_Work_Stream__c}" mode="edit" >
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Cancel" action="{!cancel}" onclick="return confirmCancel()" immediate="true" />
+                <apex:commandButton value="Save" action="{!save}" alt="Save" id="saveButton" />
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Configuration" columns="50" >
+               <apex:pageBlockTable value="{!objConfiguration}" var="con" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!con.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!con.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!con.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!con.Contingency_Simple__c}" />
+                     <apex:inputField value="{!con.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!con.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!con.Definition_Simple__c}" />
+                     <apex:inputField value="{!con.Definition_Medium__c}"/>
+                     <apex:inputField value="{!con.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!con.Scope_Simple__c}" />
+                     <apex:inputField value="{!con.Scope_Medium__c}"/>
+                     <apex:inputField value="{!con.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Workflow and Approval">
+               <apex:pageBlockTable value="{!objWorkflowAndApproval}" var="waa" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!waa.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!waa.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!waa.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!waa.Contingency_Simple__c}" />
+                     <apex:inputField value="{!waa.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!waa.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!waa.Definition_Simple__c}" />
+                     <apex:inputField value="{!waa.Definition_Medium__c}"/>
+                     <apex:inputField value="{!waa.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!waa.Scope_Simple__c}" />
+                     <apex:inputField value="{!waa.Scope_Medium__c}"/>
+                     <apex:inputField value="{!waa.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="User Administration">
+               <apex:pageBlockTable value="{!objUserAdministration}" var="uad" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!uad.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!uad.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!uad.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!uad.Contingency_Simple__c}" />
+                     <apex:inputField value="{!uad.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!uad.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!uad.Definition_Simple__c}" />
+                     <apex:inputField value="{!uad.Definition_Medium__c}"/>
+                     <apex:inputField value="{!uad.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!uad.Scope_Simple__c}" />
+                     <apex:inputField value="{!uad.Scope_Medium__c}"/>
+                     <apex:inputField value="{!uad.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Report And Dashboard" >
+               <apex:pageBlockTable value="{!objReportAndDashboard}" var="rad" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!rad.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!rad.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!rad.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!rad.Contingency_Simple__c}" />
+                     <apex:inputField value="{!rad.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!rad.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!rad.Definition_Simple__c}" />
+                     <apex:inputField value="{!rad.Definition_Medium__c}"/>
+                     <apex:inputField value="{!rad.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!rad.Scope_Simple__c}" />
+                     <apex:inputField value="{!rad.Scope_Medium__c}"/>
+                     <apex:inputField value="{!rad.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Customization">
+               <apex:pageBlockTable value="{!objCustomization}" var="cus" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!cus.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!cus.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!cus.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!cus.Contingency_Simple__c}" />
+                     <apex:inputField value="{!cus.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!cus.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!cus.Definition_Simple__c}" />
+                     <apex:inputField value="{!cus.Definition_Medium__c}"/>
+                     <apex:inputField value="{!cus.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!cus.Scope_Simple__c}" />
+                     <apex:inputField value="{!cus.Scope_Medium__c}"/>
+                     <apex:inputField value="{!cus.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Data Migration">
+               <apex:pageBlockTable value="{!objDataMigration}" var="dmi" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!dmi.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!dmi.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!dmi.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!dmi.Contingency_Simple__c}" />
+                     <apex:inputField value="{!dmi.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!dmi.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!dmi.Definition_Simple__c}" />
+                     <apex:inputField value="{!dmi.Definition_Medium__c}"/>
+                     <apex:inputField value="{!dmi.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!dmi.Scope_Simple__c}" />
+                     <apex:inputField value="{!dmi.Scope_Medium__c}"/>
+                     <apex:inputField value="{!dmi.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Integration Real Time">
+               <apex:pageBlockTable value="{!objIntegrationRealTime}" var="irt" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!irt.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!irt.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!irt.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!irt.Contingency_Simple__c}" />
+                     <apex:inputField value="{!irt.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!irt.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!irt.Definition_Simple__c}" />
+                     <apex:inputField value="{!irt.Definition_Medium__c}"/>
+                     <apex:inputField value="{!irt.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!irt.Scope_Simple__c}" />
+                     <apex:inputField value="{!irt.Scope_Medium__c}"/>
+                     <apex:inputField value="{!irt.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Integration Batch">
+               <apex:pageBlockTable value="{!objIntegrationBatch}" var="iba" align="Center" >
+               
+                  <apex:column headerValue="Rating" >
+                     <BR><B> Simple:</B></BR>
+                     <BR><B> Medium:</B></BR>
+                     <BR><B> Complex:</B></BR>
+                  </apex:column>
+                                 
+                  <apex:column headerValue="Number of Components">
+                     <apex:inputField value="{!iba.Number_Of_Components_Simple__c}" />
+                     <apex:inputField value="{!iba.Number_Of_Components_Medium__c}" />
+                     <apex:inputField value="{!iba.Number_Of_Components_Complex__c}" />  
+                  </apex:column>
+            
+                  <apex:column headerValue="Contingency in %" >
+                     <apex:inputField value="{!iba.Contingency_Simple__c}" />
+                     <apex:inputField value="{!iba.Contingency_Medium__c}"/>
+                     <apex:inputField value="{!iba.Contingency_Complex__c}"/>  
+                  </apex:column>
+                  
+                  <apex:column headerValue="Rating Definition" >
+                     <apex:inputField value="{!iba.Definition_Simple__c}" />
+                     <apex:inputField value="{!iba.Definition_Medium__c}"/>
+                     <apex:inputField value="{!iba.Definition_Complex__c}"/>  
+                  </apex:column>                  
+
+                  <apex:column headerValue="Scope of Requirement" >
+                     <apex:inputField value="{!iba.Scope_Simple__c}" />
+                     <apex:inputField value="{!iba.Scope_Medium__c}"/>
+                     <apex:inputField value="{!iba.Scope_Complex__c}"/>  
+                  </apex:column> 
+               </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>      
+</apex:page>

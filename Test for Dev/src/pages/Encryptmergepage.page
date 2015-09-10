@@ -1,0 +1,16 @@
+<apex:page standardController="account" sidebar="false" showHeader="false" extensions="EncryptmergepageController">
+   <apex:form >
+       <apex:pageBlock >
+       
+       <apex:commandButton action="{!showData}" value="show data"/>
+           <apex:pageBlockTable value="{!mapObj}" var="key" rendered="{!show}" >
+               <apex:column headerValue="Key Values">
+                    {!key} 
+               </apex:column>
+               <apex:column headerValue="Values">
+                    {!mapObj[key]} 
+               </apex:column>
+          </apex:pageBlockTable>
+      </apex:pageBlock>
+   </apex:form>
+</apex:page>

@@ -1,0 +1,62 @@
+<apex:page controller="OrderEnquiry">
+<apex:form >
+<apex:pagemessages ></apex:pagemessages>
+<apex:pageBlock >
+    <apex:pageBlockButtons >    
+    <apex:commandButton value="Search Orders" action="{!SearchOrder}"/>  
+    </apex:pageBlockButtons>
+
+<apex:pageBlockSection columns="2" showHeader="true" title="Order Search Criteria">
+    <apex:pageBlockSectionItem >
+        <apex:outputLabel value="Order Number" />
+        <apex:inputText value="{!OrderNumber}"/>
+    </apex:pageBlockSectionItem>
+    <apex:pageBlockSectionItem >
+        <apex:outputLabel value="First Name" />
+        <apex:inputText value="{!FirstName}"/>        
+    </apex:pageBlockSectionItem>     
+    <apex:pageBlockSectionItem >
+        <apex:outputLabel value="Email" />
+        <apex:inputText value="{!Email}"/>        
+    </apex:pageBlockSectionItem>     
+</apex:pageBlockSection>
+</apex:pageBlock>
+
+<apex:pageBlock title="Order Information" rendered="{!bDisplay}">
+<apex:pageBlockTable value="{!orderlist}" var="O">
+<apex:column headerValue="Action">
+    <apex:commandLink value="Log a Complaint" action="{!LogComplaint}">
+        <apex:param id="OID" name="OID" value="{!O.ID}"/>
+        <apex:param id="OName" name="OName" value="{!O.Name}"/>
+    </apex:commandLink>    
+</apex:column>
+<apex:column headerValue="Order Number">
+    <apex:commandLink value="{!O.Name}" action="{!OderDetails}">
+        <apex:param name="OID" value="{!O.ID}"/>
+    </apex:commandLink>
+</apex:column>
+<apex:column headerValue="First Name">
+    <apex:outputField value="{!O.First_Name__c}"/>    
+</apex:column>
+<apex:column headerValue="Last Name">
+    <apex:outputField value="{!O.Last_Name__c}"/>    
+</apex:column>
+<apex:column headerValue="Email">
+    <apex:outputField value="{!O.Email__c}"/>    
+</apex:column>
+<apex:column headerValue="Phone Number">
+    <apex:outputField value="{!O.Phone__c}"/>    
+</apex:column>
+<apex:column headerValue="Order Amount">
+    <apex:outputField value="{!O.Order_Amount_Text__c}"/>    
+</apex:column>
+<apex:column headerValue="Order Status">
+    <apex:outputField value="{!O.Order_Status__c}"/>    
+</apex:column>
+<!--apex:column headerValue="Order Total">
+    <apex:outputField value="{!O.Order_Total__c}"/>    
+</apex:column-->
+</apex:pageBlockTable>    
+</apex:pageBlock>
+</apex:form>
+</apex:page>

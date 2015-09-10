@@ -1,0 +1,108 @@
+<apex:page extensions="InvoicePDF" standardController="Order__c" action="{!attachinvoice}">>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+    <tr>
+        <td>
+            <img src='{!URLFOR($Resource.Logo4567687)}' title="logo" />
+        </td>
+        <td  align="right"><font face="Arial" >
+            <b>Invoice for {!Order.First_Name__c} {!Order.last_Name__c}</b></font><br/>
+       </td>
+    </tr>
+    <hr/>
+
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+    <tr>            
+       <td width="60%" align="left"><font face="Arial">Invoice number: {!Order.Name}
+           </font></td>
+       <td align="right">
+           <font face="Arial">
+               Invoice Date: <apex:outputText value="{0, date, MMMM d','  yyyy}">
+    <apex:param value="{!Order.Order_Date__c}" /> 
+</apex:outputText>
+
+           </font>
+       </td>
+    </tr>
+</table>
+<br/>
+<hr/>
+<p><b><font face="Arial" color="#000080">Address Information</font></b></p>
+
+<table border="0" width="100%" id="table2">
+    <tr>
+       <td colspan="3">
+           <font face="Arial">Customer name: {!Order.First_Name__c} {!Order.last_Name__c}<br/><br/></font>
+       </td>
+    </tr>
+    <tr>
+       <td>          
+           <font face="Arial">Bill To:<br/>
+                 {!Order.Billing_Street_Address__c}<br/>
+                 {!Order.Billing_Postal_Code__c} {!Order.Billing_City__c}
+           </font>
+        </td>
+        <td width="50%"></td>
+        <td align="right">
+           <font face="Arial">Ship To:<br/>
+                 {!Order.Shipping_Street_Address__c}<br/>
+                 {!Order.Shipping_Postal_Code__c} {!Order.Shipping_City__c}
+           </font>
+        </td>
+    </tr>    
+</table>
+<br/>
+<hr/>
+<p><b><font color="#000080" face="Arial">Products</font></b></p>
+<apex:pageBlock >
+<table border="0" width="100%" id="table4">
+    <tr>
+       <td >
+           <font face="Arial">
+               <apex:pageBlockTable width="100%" value="{!productlist}" var="O">
+                <apex:column headerValue="Product">
+                    <apex:outputLabel value="{!O.Product__r.name}"/>    
+                </apex:column>
+                <apex:column headerValue="Quantity">
+                    <apex:outputField value="{!O.Quantity__c}"/>    
+                </apex:column>
+                <apex:column headerValue="Unit Price">
+                    <apex:outputField value="{!O.Price__c}"/>    
+                </apex:column>
+                <apex:column headerValue="Total Price">
+                    <apex:outputField value="{!O.Cost_Price__c }"/>    
+                </apex:column>
+                </apex:pageBlockTable>  
+            </font>
+       </td>
+    </tr>
+    
+</table>
+</apex:pageBlock>
+<br/>
+<table border="0" width="100%" id="table2">
+    <tr>
+       <td bgcolor="#C0C0C0" align="right" style="padding-right:105px;">
+       <font face="Arial"><b>Invoice Amount :</b>&nbsp;<apex:OutputField value="{!Order.Order_Amount_Text__c}"/></font></td>
+    </tr>
+</table>
+<br/>
+<br/>
+<br/>
+<hr/>
+<table border="0" width="100%" id="table2">
+    <tr>
+       <td align="left">
+           <font face="Arial">
+           Thanks<br/>
+            ABC Enterprise<br/>
+            www.abc.com<br/>
+            17th Avenue, Mountain view<br/>
+            CA, 95203<br/>            
+            Customer Care- 888-888-9999 <br/>
+           </font>
+       </td>
+    </tr>
+        
+</table>
+</apex:page>

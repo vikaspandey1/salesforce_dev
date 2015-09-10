@@ -1,0 +1,272 @@
+<apex:page sidebar="false" controller="LicenseOptimizerController" >
+
+
+<link href="{!URLFOR($Resource.LicenseResources, '/litst1/jquery.dataTables.css')}" rel="stylesheet" /> 
+
+<apex:includeScript value="{!URLFOR($Resource.LicenseResources, 'litst1/jquery-1.11.1.min.js')}"/> 
+<apex:includeScript value="{!URLFOR($Resource.LicenseResources, 'litst1/jquery.dataTables.min.js')}"/>
+
+
+<script>
+ 
+j$ = jQuery.noConflict();
+j$(document).ready( function () {
+ var shifttable = j$('[id$="Userstable"]').dataTable({ }); 
+
+
+
+}); 
+
+//            background: url('{!$Resource.SalesForceLoading_GIF}') scroll no-repeat 0 0;  background: url('/img/loading32.gif') scroll no-repeat 0 0;
+
+</script> 
+<script type="text/javascript">
+        function startLoading(){
+            $('#load_scrl').css('top', $(document).scrollTop() + 200);
+            $('.loadingBox').show();
+        }
+        function endLoading(){
+             $('.loadingBox').hide();
+        }
+        
+        
+      
+            </script>
+    <style>
+        .overlay {
+            display: none;
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            opacity: 0.3;
+            -moz-opacity: 0.3;
+            width: 100%;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+            filter: alpha(opacity=30);
+            background: #000;
+            -khtml-opacity: 0.3;
+            z-index: 1000;
+        }
+        .loader {
+
+             background: url('{!$Resource.SalesForceLoading_GIF}') scroll no-repeat 0 0;
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            left: 50%;
+        }
+        
+        
+         .buttonshow{
+   border-top: 1px solid #90ae6a;
+   background: #91af6a;
+   background: -webkit-gradient(linear, left top, left bottom, from(#91af6a), to(#91af6a));
+   background: -webkit-linear-gradient(top, #91af6a, #91af6a);
+   background: -moz-linear-gradient(top, #91af6a, #91af6a);
+   background: -ms-linear-gradient(top, #91af6a, #91af6a);
+   background: -o-linear-gradient(top, #91af6a, #91af6a);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,0) 0 2px 0;
+   text-shadow: rgba(0,0,0,0) 0 1px 0;
+   color: #000000;
+   font-size: 25px;
+   font-family: Book Antiqua, Palatino, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.buttonshow:hover {
+   <!--border-top-color: #337ab7; -->
+   background: #337ab7;
+   color:#FFFFFF;
+   }
+ .buttonshow:active {
+ <!--  border-top-color: #91af6a; -->
+   background: #337ab7;
+         color:#FFFFFF
+   } 
+        
+        .buttonDeactivate{
+   border-top: 1px solid #90ae6a;
+   background: #91af6a;
+   background: -webkit-gradient(linear, left top, left bottom, from(#91af6a), to(#91af6a));
+   background: -webkit-linear-gradient(top, #91af6a, #91af6a);
+   background: -moz-linear-gradient(top, #91af6a, #91af6a);
+   background: -ms-linear-gradient(top, #91af6a, #91af6a);
+   background: -o-linear-gradient(top, #91af6a, #91af6a);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,0) 0 2px 0;
+   text-shadow: rgba(0,0,0,0) 0 1px 0;
+   color: #000000;
+   font-size: 25px;
+   font-family: Book Antiqua, Palatino, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.buttonDeactivate:hover {
+  <!-- border-top-color: #FF3300; -->
+  background: #FF3300;  
+   color:#FFFFFF
+;
+   }
+.buttonDeactivate:active {
+ <!--  border-top-color: #91af6a; -->
+   background: #FF3300;
+         color:#FFFFFF
+   } 
+        
+        .buttonActivate{
+   border-top: 1px solid #90ae6a;
+   background: #91af6a;
+   background: -webkit-gradient(linear, left top, left bottom, from(#91af6a), to(#91af6a));
+   background: -webkit-linear-gradient(top, #91af6a, #91af6a);
+   background: -moz-linear-gradient(top, #91af6a, #91af6a);
+   background: -ms-linear-gradient(top, #91af6a, #91af6a);
+   background: -o-linear-gradient(top, #91af6a, #91af6a);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,0) 0 2px 0;
+   text-shadow: rgba(0,0,0,0) 0 1px 0;
+   color: #000000;
+   font-size: 25px;
+   font-family: Book Antiqua, Palatino, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.buttonActivate:hover {
+  <!-- border-top-color: #FF3300; -->
+  background: #5cb85c;  
+   color:#FFFFFF
+;
+   }
+      .buttonActivate:active {
+ <!--  border-top-color: #91af6a; -->
+   background: #5cb85c;
+         color:#FFFFFF
+   } 
+       
+    </style>
+
+    
+    <apex:form id="page-form" >
+
+       
+
+        
+        <apex:pageBlock title="Manage Users Licenses" id="pb"   >
+            <apex:pagemessages />
+           
+            <apex:pageBlockSection title="Search Citeria" id="ustatus" columns="8" collapsible="false" >
+          
+     
+                
+                 <apex:selectList value="{!strProfileType}" size="5" multiselect="true"  label="Profile Name" title="Profile Name"  >
+                    <apex:selectOptions value="{!ProfileType}"/>
+                </apex:selectList>
+           
+          
+           <apex:selectList value="{!strShiftType}" multiselect="true"  size="5"  label="Shift Types" title="Users"   >
+                    <apex:selectOption itemValue="Regular" itemLabel="Regular"/>                
+                    <apex:selectOption itemValue="Afternoon" itemLabel="Afternoon"/>
+                    <apex:selectOption itemValue="Evening" itemLabel="Evening"/>
+                    <apex:selectOption itemValue="Night" itemLabel="Night"/>
+                    <apex:selectOption itemValue="na" itemLabel="NA"/>               
+                </apex:selectList>
+          
+                <apex:selectList value="{!blStatusValue}" size="2"   label="Status" title="Status"  >
+                    <apex:selectOption itemValue="true" itemLabel="Active"/>
+                    <apex:selectOption itemValue="false" itemLabel="Inactive"/>
+                </apex:selectList>
+       
+                   
+                <div id="load_scrl" class="loadingBox loader" style="display:none"> </div>
+                <div class="loadingBox overlay"> </div>
+            <apex:actionStatus onstart="startLoading();" onstop="endLoading();" id="loadStatus" />
+            <apex:commandButton action="{!refresh}" value="Show" status="loadStatus"    styleClass="buttonshow"/>
+
+        
+            
+       
+                         
+                          
+            </apex:pageBlockSection>
+
+        <apex:pageBlock id="pbt">
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="Userstable" style="margin-top:20px;">
+            <thead>
+                <tr>
+            <th>Select user</th>
+
+
+
+                    <th>Custom Users</th>
+                    <th>ProfileName</th>
+                    <th>Shift_Type Name</th>
+                    <th>Start_Time</th>
+                    <th>End_Time</th>
+                    <th>Status__c</th>
+                </tr>
+            </thead>
+           
+ <tbody>
+                <apex:repeat value="{!users}" var="c">
+                    <tr>
+             <td> <apex:inputCheckbox value="{!c.checked}"/> </td>
+<!--                        <td>{!c.cat.Name__c}</td> -->
+                         <td>
+                         <apex:commandLink id="userrowlink"  status="loadStatus"  value="{!c.cat.Name__c}" action="{!getusername}" reRender="userdetailinfo" >   
+                            <apex:param name="username" value="{!c.cat.Name__c}" assignTo="{!strSelectedUser}"/ >
+                            </apex:commandLink>
+                        </td>
+                         <td>{!c.cat.ProfileName__c}</td> 
+                        
+                        <td>{!c.cat.Shift_Type__c}</td>
+                        
+                        <td>{!c.cat.Start_Time__c}</td>
+                         <td>{!c.cat.End_Time__c}</td>
+                        <td>
+                            {!c.cat.Status__c}
+                        </td>
+                        
+
+                  </tr>
+                 </apex:repeat>
+                
+            </tbody>
+        </table>
+        
+         <br/>
+        <br/>
+        </apex:pageBlock>
+
+            <center>
+             
+                <apex:commandButton value="Activate Users"  status="loadStatus"    action="{!activate}" rendered="{!blActivateButton}"  styleClass="buttonActivate"  />
+                <apex:commandButton id="Deactivate" value="Deactivate Users" status="loadStatus" action="{!deactivate}" rendered="{!blDeactivateButton}"  styleClass="buttonDeactivate"  /> 
+                <apex:commandButton value="Start Schedule"   action="{!startSchedule}" styleClass="buttonActivate" />  
+            </center>
+       
+            </apex:pageBlock>
+            
+            <apex:pageBlock id="userdetailinfo" rendered="{!blShowUserDetail}"  >
+                <apex:detail relatedList="false" title="false"  subject="{!iduser}" />   
+            </apex:pageBlock> 
+            
+    </apex:form> 
+
+        
+</apex:page>

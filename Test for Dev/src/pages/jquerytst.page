@@ -1,0 +1,105 @@
+<apex:page >
+<head>
+ 
+<apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" / >
+<apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
+ <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" /> 
+
+ 
+<!-- I have a static resource called famfamfam which is the zip file from http://www.famfamfam.com/lab/icons/silk/famfamfam_silk_icons_v013.zip -->
+<style>
+td.details-control {
+<!-- background: url("{!$Resource.cti_sprite}") no-repeat center center; -- >
+cursor: pointer;
+}
+tr.shown td.details-control {
+<!--  background: url('{!URLFOR($Resource.LbImages,'/sort_asc.png')}') no-repeat center center; -->
+}
+</style>
+ 
+<!-- No need for a controller here! We can use Remote Objects. -->
+<apex:remoteObjects >
+<apex:remoteObjectModel name="Account" fields="Name,Phone" />
+<apex:remoteObjectModel name="Contact" fields="Name,LastName,Phone,AccountId" />
+</apex:remoteObjects>
+ 
+<script>
+j$ = jQuery.noConflict();
+j$(document).ready( function () {
+var acctTable = j$('[id$="accounttable"]').DataTable( {
+// Use the Remote Object retrieve method to get a list of accounts
+"ajax": function(data, callback, settings) {
+var acct = new SObjectModel.Account();
+acct.retrieve({orderby: [{Name: 'ASC'}], limit: 100}, function(err, records){
+if(err) alert(err.message);
+else {
+callback({'data': records});
+};
+});
+},
+// Specify our columns. The first column is used to control expanding and collapsing to see contacts.
+"columns": [
+{ "class": 'details-control',
+"orderable": false,
+"data": null,
+"defaultContent": '',
+width: "8%" },
+{ "data": "_props.Name",
+"defaultContent": '' },
+{ "data": "_props.Phone",
+"defaultContent": '' }
+],
+order: [[1, 'asc']],
+} );
+ 
+// This is used to watch for clicks to expand and collapse the rows.
+j$('#accounttable tbody').on('click', 'td.details-control', function () {
+var tr = j$(this).closest('tr');
+var row = acctTable.row( tr );
+if ( row.child.isShown() ) {
+// This row is already open - close it
+row.child.hide();
+tr.removeClass('shown');
+}
+else {
+// Open this row
+formatContacts(row.data(), function(childData) {
+row.child( childData ).show();
+tr.addClass('shown');
+});
+}
+} );
+ 
+// Each time a row is clicked to expand, we need to query for a list of contacts for that account and
+// build a table that will display as a child to the row
+function formatContacts(d, callback) {
+var contact = new SObjectModel.Contact();
+contact.retrieve({ where: {AccountId: {eq: d.get('Id')}}, orderby: [{LastName: 'ASC'}], limit: 100}, function(err, records){
+if(err) alert(err.message);
+else {
+var table = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+'<thead><tr><th>Name</th><th>Phone</th></tr></thead><tbody>';
+records.forEach(function (record){
+table = table + '<tr><td>' + record.get('Name') + '</td><td>' + record.get('Phone') + '</td></tr>';
+});
+table = table + '</tbody></table>';
+callback(table);
+};
+});
+}
+ 
+} );
+</script>
+</head>
+<body>
+<table id="accounttable" class="display" cellspacing="0" width="100%">
+<thead>
+<tr>
+<th/>
+<th>Name</th>
+<th>Phone</th>
+</tr>
+</thead>
+</table>
+</body>
+</apex:page>

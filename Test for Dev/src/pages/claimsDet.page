@@ -1,0 +1,33 @@
+<apex:page controller="claimsDetailsController">
+ 
+   <apex:form >
+         <apex:pageBlock title="Claims" rendered="{! IF(claimsList.size > 0, true, false)}">
+         <apex:pageblockButtons >
+             <apex:commandButton action="{!addLogs}" value="Log it!"/>
+             <!--<apex:commandButton action="{!cancel}" value="Cancel"/>-->
+         </apex:pageblockButtons>
+         <apex:pageBlockTable value="{!claimsList}" var="clm">
+                <apex:column >
+                    <apex:inputCheckbox value="{!clm.selected}" id="checkedone"/>
+                </apex:column>
+                <apex:column headerValue="Claim Id">
+                <apex:outputLink value="{!URLFOR($Action.Claim__c.View,clm.con.Id)}">{!clm.con.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column value="{!clm.con.policy__r.Product__r.Name}"/>
+                <apex:column value="{!clm.con.Claim_Amount__c}"/>
+                <apex:column value="{!clm.con.Paid_Amount__c}"/>
+                <apex:column value="{!clm.con.Reciept_Date__c}"/>
+                <apex:column value="{!clm.con.Claim_Status__c}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Claims" rendered="{! IF(claimsList.size > 0, false, true)}">
+         <apex:pageblockButtons >
+             <!--<apex:commandButton action="{!cancel}" value="Ok"/> -->
+         </apex:pageblockButtons>
+         <apex:pageblockSection >
+             <apex:pageBlockSectionItem >No claims</apex:pageBlockSectionItem>
+         </apex:pageblockSection>
+         </apex:pageBlock>
+      </apex:form>     
+</apex:page>

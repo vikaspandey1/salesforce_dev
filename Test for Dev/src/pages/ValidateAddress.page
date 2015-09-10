@@ -1,0 +1,27 @@
+<apex:page standardController="Lead" extensions="ValidateAddress" action="{!AddressValidation}">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+<apex:form >
+    <apex:pageBlock title="Association Details for {!Lead.Name}">
+        <apex:pageBlockSection columns="2">
+            <apex:outputField value="{!Lead.City}"/>
+            <apex:outputField value="{!Lead.State}"/>
+            <apex:outputField value="{!Lead.PostalCode}"/>
+            <apex:outputField value="{!Lead.Country}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock title="Google Suggested Address">
+        <apex:pageBlockButtons location="top">
+            <apex:commandButton value="Back to Association" action="{!back}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="2">
+            <apex:outputLabel rendered="{!!if(GoogleCon.Zip_Postal_Code__c ==null, false, true)}">
+                Entered postal code is invalid ... 
+            </apex:outputLabel>
+            <apex:outputField rendered="{!if(GoogleCon.Zip_Postal_Code__c ==null,false,true)}" value="{!GoogleCon.City__c}"/>
+            <apex:outputField rendered="{!if(GoogleCon.Zip_Postal_Code__c ==null,false,true)}" value="{!GoogleCon.State_Province__c}"/>
+            <apex:outputField rendered="{!if(GoogleCon.Zip_Postal_Code__c ==null,false,true)}" value="{!GoogleCon.Zip_Postal_Code__c}"/>
+            <apex:outputField rendered="{!if(GoogleCon.Zip_Postal_Code__c ==null,false,true)}" value="{!GoogleCon.Country__c}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,36 @@
+<apex:page sidebar="false" showHeader="false" controller="DummyPageController">
+
+ <apex:form >
+  <form> 
+ <apex:pageBlock >
+ <Html><Body><h2><p><font size="5" color="Green"><p3>Humana Sign out</p3><br/>
+ <p4>Thank you for visiting us</p4><br/>
+
+ <p5> You are now signed out. </p5></font></p></h2></body></Html>
+<p1><font size="4" color="red"><a href="https://ap1.salesforce.com/console"> Click here to Login.</a></font></p1>
+
+ 
+ </apex:pageBlock>
+ 
+<style type="text/css">
+h2 {color: green;}
+p2{color: blue;}
+p3{color: green;}
+p4{color: blue;}
+p5{color: green;}
+
+
+
+
+</style>
+<html>
+<body>
+
+
+
+</body>
+</html>
+</form> 
+
+</apex:form>
+</apex:page>

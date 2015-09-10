@@ -1,0 +1,71 @@
+<apex:page controller="encryptController">
+
+  
+   <script language="javascript" type="text/javascript">
+
+           function Check(){
+                  setVisibilityActn();
+              }
+          </script>
+           
+  <apex:form >
+        <apex:pageMessages />
+  <apex:actionFunction name="setVisibilityActn" action="{!run}"/>  
+    <apex:actionFunction name="setVisibilityActn02" action="{!getFieldss}"/>
+      <!-- <apex:actionFunction name="setVisibilityActn03" action="{!testfunction}"/>  -->
+     <!--    <apex:actionFunction name="setVisibilityActn04" action="{!getmap_contact_address}"/>  -->
+       <!-- <apex:actionFunction name="setVisibilityActn04" action="{!run}"/>   -->
+      
+    <apex:pageBlock >
+         
+      
+         <apex:pageBlockButtons location="bottom">
+                <apex:commandButton onclick="click();" action="{!encrypt}" rendered="{!visibility03}" value="Encrypt Field"/>
+                <apex:commandButton onclick="click();" action="{!decrypt}" rendered="{!visibility03}" value="Decrypt Field"/>
+
+            </apex:pageBlockButtons>
+            
+
+            
+        <apex:pageBlockSection columns="2">
+           
+           
+            <apex:pageblockSectionItem >
+                <apex:outputLabel value="select Objects"/>
+            </apex:pageblockSectionItem> 
+            
+                   
+            <apex:pageblockSectionItem >                
+                <apex:selectList size="1" value="{!objectval}" onchange="Check();">
+                    <apex:selectOptions value="{!Objects}"/>
+                    
+                </apex:selectList>                
+            </apex:pageblockSectionItem>
+            
+            
+            
+            <apex:pageblockSectionItem >
+                <apex:outputLabel value=" Select Fields"/>
+            </apex:pageblockSectionItem>  
+                
+            <apex:pageblockSectionItem >
+                 <apex:selectList multiselect="false" size="1" value="{!fieldval}" id="a" onchange="Check();" rendered="{!visibility02}" > 
+       
+               
+                    <apex:selectOptions value="{!Fieldss}"/>
+                  
+                </apex:selectList>
+            </apex:pageblockSectionItem> 
+            
+            
+             
+    
+</apex:pageBlockSection>
+           
+</apex:pageBlock>
+ 
+  
+    </apex:form> <!--rendered="{!visibility05}" -->
+<!-- <apex:ListViews type="encrypt_Config__c" /> -->
+<apex:enhancedList type="encrypt_Config__c"  customizable="false" height="300"  rowsPerPage="10"  />
+</apex:page>

@@ -1,0 +1,89 @@
+<apex:page controller="UserStatusController" tabStyle="User">
+  <script type="text/javascript">
+        function checkAll(cb){
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++){
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                    inputElem[i].checked = cb.checked;
+            }
+        } 
+        function checkAllcases(cb){
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++){
+                if(inputElem[i].id.indexOf("checkcases")!=-1)
+                    inputElem[i].checked = cb.checked;
+            }
+     </script>
+   <apex:form id="TheForm">
+        <apex:pagemessages />
+       
+         <apex:pageBlock id="shiftBlock" title="Available Shifts">
+         <apex:selectList value="{!selectedShift}" size="1" > 
+            <apex:selectOptions value="{!openShiftOptions}" > 
+            </apex:selectOptions>
+         </apex:selectList>&nbsp;&nbsp;&nbsp;
+           <apex:commandButton onclick="getUsers()" id="btnSubmit" value="Go" />
+       </apex:pageBlock>
+       <apex:pageBlock id="MainUserBlock" rendered="true" >
+            <apex:pageBlockSection Title="List of Active Users" >
+                <apex:dataTable value="{!users}" var="u" columnswidth="50px,50px" cellpadding="4" border="1" id="MainUserTable" >
+                    <apex:column >
+                        <apex:facet name="header"> <apex:inputCheckbox >
+                            <apex:actionSupport event="onclick" action="{!GetSelected}" onsubmit="checkAll(this)" rerender="SelectedPageBlock"/>
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!u.selected}" id="checkedone">
+                        <apex:actionSupport event="onclick" action="{!GetSelected}" rerender="SelectedPageBlock"/></apex:inputCheckbox>
+                    </apex:column>
+                    <apex:column headervalue="User Name" value="{!u.usr.Name__c}" />
+                     <apex:column headervalue="User" value="{!u.usr.User__c}" />
+                    <apex:column headervalue="User Id" value="{!u.usr.Id}" />
+                    <apex:column headervalue="Active Status" value="{!u.usr.Status__c}"/>
+                </apex:dataTable>
+            </apex:pageBlockSection>
+        <!--    <apex:pageBlockSection Title="Selected Users" id="SelectedPageBlock" rendered="true">
+                <apex:dataTable value="{!SelectedUsers}" var="s" columnswidth="50px,50px" cellpadding="4" border="1">
+                    <apex:column headervalue="User Name" value="{!s.Name}" />
+                    <apex:column headervalue="User Id" value="{!s.Id}" />
+                </apex:dataTable>
+            </apex:pageBlockSection> 
+             -->
+        </apex:pageBlock>
+       <apex:pageBlock id="queueBlock" title="Available Queues">
+         <apex:selectList value="{!selectedQueue}" size="1"> 
+            <apex:selectOptions value="{!openQueueOptions}" /> 
+         </apex:selectList>
+       </apex:pageBlock>
+         <apex:pageBlock id="caseBlock" title="Assigned Cases List">
+           <apex:dataTable border="1" value="{!caselist}" var="ci">
+           
+           <apex:column >
+                        <apex:facet name="header"> <apex:inputCheckbox >
+                            <apex:actionSupport event="onclick" action="{!getSelectedCases}" onsubmit="checkAllcases(this)" rerender="caseBlock"/>
+                            </apex:inputCheckbox>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!ci.selected}" id="checkcases">
+                        <apex:actionSupport event="onclick" action="{!getSelectedCases}" rerender="caseBlock"/></apex:inputCheckbox>
+           </apex:column>
+           
+           <apex:column value="{!ci.cases.Id}" headerValue="Case id"/>
+           <apex:column value="{!ci.cases.CaseNumber}" headerValue="Case number"/>
+           <apex:column value="{!ci.cases.Subject}" headerValue="Subject"/>
+           <apex:column value="{!ci.cases.OwnerId}" headerValue="Owner id"/>
+          </apex:dataTable>
+         </apex:pageBlock>
+        <apex:pageBlock id="mgrBlock">
+         <apex:pageMessages id="showmsg"></apex:pageMessages>
+           <!--Manager's Id: <apex:outputLabel value="{!ManagerInfo.ManagerId}" />-->
+           <apex:pageblockTable value="{!ManagerInfo}" var="mi"> 
+         <!--  <apex:column value="{!mi.ManagerId}"/> -->
+           </apex:pageblockTable>
+         </apex:pageBlock>
+         <apex:commandButton value="Deactive Selected Users" action="{!makeAllInactive}" /> 
+         <apex:commandButton value="Activate Selected Users" action="{!makeAllActive}" /> 
+         <!--<apex:commandButton value="Deactive CSV Users" action="{!makeInactive}" /> -->
+         <!--<apex:commandButton value="Get Manager" action="{!getManagersName}" /> -->
+         <apex:commandButton value="Find Cases" action="{!findCases}" /> 
+         <apex:commandButton value="Assign Cases To Selected Queue" action="{!assignCases}" reRender="caseBlock"/>    
+     </apex:form> 
+</apex:page>
